@@ -17,8 +17,8 @@ Steps to deploy the resources and configure the pipeline.
     The parameters included require a value to be set. `logstashInputPass` sets the password for the pipeline basic authentication (the user ID is set to `logicmonitor` by default). The `logstashOutput*` parameters set the ServiceNow URL and credentials required to send events to the Event Management endpoint.
 
     ```bash
-    az deployment group create --resource-group logstash-example
-        --template-file https://github.com/logstash.bicep
+    az deployment group create --resource-group logstash-example \
+        --template-uri https://raw.githubusercontent.com/chrisred/az-logstash-example/master/logicmonitor-servicenow/logstash.bicep \
         --parameters \
         logstashInputPass=<password> \
         logstashOutputUrl=https://<instancename>.service-now.com/api/global/em/jsonv2 \
