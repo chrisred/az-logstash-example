@@ -50,8 +50,13 @@ Steps to deploy the resources and configure the pipeline.
 
 ## Usage
 
-* The Container App "Overview" shows the `Application Url`. Loading the URL in a browser should raise an authentication prompt, this shows the Logstash pipeline is responding. This URL would be configured within LogicMonitor.
+The Container App "Overview" shows the `Application Url`. Loading the URL in a browser should raise an authentication prompt, this shows the Logstash pipeline is responding. This URL would be configured within LogicMonitor.
 
-* The Log stream section captures the container `STDOUT` messages, the line `[INFO ][logstash.javapipeline    ][main] Pipeline started {"pipeline.id"=>"main"}` indicates the pipeline has started successfully.
+The Log stream section captures the container `STDOUT` messages, the line `[INFO ][logstash.javapipeline    ][main] Pipeline started {"pipeline.id"=>"main"}` indicates the pipeline has started successfully.
 
-* The Scale settings for the container have `Min replicas` set to `0` and `Max replicas` set to `1`. With these settings after 300 seconds with no incoming requests the container will stop, the next request will need to wait for it to start again. Set `Min replicas` to `1` to keep the container permanently running. During container initialization the `json_encode` filter plugin is installed which increases the startup time.
+The Scale settings for the container have `Min replicas` set to `0` and `Max replicas` set to `1`. With these settings after 300 seconds with no incoming requests the container will stop, the next request will need to wait for it to start again. Set `Min replicas` to `1` to keep the container permanently running. During container initialization the `json_encode` filter plugin is installed which increases the startup time.
+
+> [!NOTE]
+> To avoid issues with parsing certain time zones the `GMT (No daylight saving)` or `UTC` zone should be set under [Account Information](https://www.logicmonitor.com/support/settings/account-information/portal-settings) in LogicMonitor. LogicMonitor uses an [abbreviated time zone](https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations) string for the [tokens](https://www.logicmonitor.com/support/logicmodules/about-logicmodules/tokens-available-in-datasource-alert-messages) used in the alert data. Common abbreviated zones such as `BST` and `CST` are not unique.
+>
+> If the date cannot be parsed from the LogicMonitor event, the time it was received by the pipeline will be used.
