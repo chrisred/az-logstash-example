@@ -14,7 +14,7 @@ Steps to deploy the resources and configure the pipeline.
 
     [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fchrisred%2Faz-logstash-example%2Fmaster%2Flogicmonitor-servicenow%2Flogstash.json)
 
-    The parameters included require a value to be set. `logstashInputPass` sets the password for the pipeline basic authentication (the user ID is set to `logicmonitor` by default). The `logstashOutput*` parameters set the ServiceNow URL and credentials required to send events to the Event Management endpoint.
+    The parameters included require a value to be set. `logstashInputPass` sets the password for the pipeline basic authentication (the user ID is set to `logicmonitor` by default). The `logstashOutput*` parameters set the ServiceNow URL and credentials required to send events to the Event Management [web service API](https://docs.servicenow.com/csh?topicname=send-events-via-web-service.html&version=latest).
 
     ```bash
     az deployment group create --resource-group logstash-example \
@@ -22,8 +22,8 @@ Steps to deploy the resources and configure the pipeline.
         --parameters \
         logstashInputPass=<password> \
         logstashOutputUrl=https://<instancename>.service-now.com/api/global/em/jsonv2 \
-        logstashOutputUser=<servicenowuser> \
-        logstashOutputPass=<password>
+        logstashOutputUser=<servicenow_userid> \
+        logstashOutputPass=<servicenow_password>
     ```
 
 ### Configuration
@@ -56,7 +56,4 @@ The Log stream section captures the container `STDOUT` messages, the line `[INFO
 
 The Scale settings for the container have `Min replicas` set to `0` and `Max replicas` set to `1`. With these settings after 300 seconds with no incoming requests the container will stop, the next request will need to wait for it to start again. Set `Min replicas` to `1` to keep the container permanently running. During container initialization the `json_encode` filter plugin is installed which increases the startup time.
 
-> [!NOTE]
-> To avoid issues with parsing certain time zones the `GMT (No daylight saving)` or `UTC` zone should be set under [Account Information](https://www.logicmonitor.com/support/settings/account-information/portal-settings) in LogicMonitor. LogicMonitor uses an [abbreviated time zone](https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations) string for the [tokens](https://www.logicmonitor.com/support/logicmodules/about-logicmodules/tokens-available-in-datasource-alert-messages) used in the alert data. Common abbreviated zones such as `BST` and `CST` are not unique.
->
-> If the date cannot be parsed from the LogicMonitor event, the time it was received by the pipeline will be used.
+See [this repository](https://github.com/chrisred/logstash-pipeline-conf/tree/master#logicmonitor-to-servicenow) for more details on the pipeline.
