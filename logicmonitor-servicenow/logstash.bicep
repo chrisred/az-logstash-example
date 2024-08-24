@@ -2,6 +2,7 @@
 param location string = resourceGroup().location
 @description('Generates a unique name with the default value.')
 param storageAccountName string = 'logstash${substring(uniqueString(resourceGroup().id),0,5)}'
+@description('The name of the Azure Files share.')
 param storageAccountShareName string = 'logstash-config'
 @description('Generates a unique name with the default value.')
 param logAnalyticsAccountName string = 'logstash-${substring(uniqueString(resourceGroup().id),0,5)}'
