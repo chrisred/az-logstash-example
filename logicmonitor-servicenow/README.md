@@ -1,4 +1,4 @@
-# LogicMonitor ServiceNow Example
+# LogicMonitor to ServiceNow
 
 A minimal [Logstash](https://www.elastic.co/logstash) deployment using an [Azure Container App](https://learn.microsoft.com/en-us/azure/container-apps/) for testing or development. The pipeline in this example accepts events from [LogicMonitor](https://www.logicmonitor.com/) and sends them to a ServiceNow [Event Management](https://docs.servicenow.com/csh?topicname=c_EM.html&version=latest) endpoint.
 
@@ -14,7 +14,7 @@ Steps to deploy the resources and configure the pipeline.
 
     [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fchrisred%2Faz-logstash-example%2Fmaster%2Flogicmonitor-servicenow%2Flogstash.json)
 
-    The parameters included require a value to be set. `logstashInputPass` sets the password for the pipeline basic authentication (the user ID is set to `logicmonitor` by default). The `logstashOutput*` parameters set the ServiceNow URL and credentials required to send events to the Event Management [web service API](https://docs.servicenow.com/csh?topicname=send-events-via-web-service.html&version=latest).
+    The parameters below require a value to be set. `logstashInputPass` sets the password for the pipeline basic authentication (the user ID is set to `logicmonitor` by default). The `logstashOutput*` parameters set the ServiceNow URL and credentials required to send events to the Event Management [web service API](https://docs.servicenow.com/csh?topicname=send-events-via-web-service.html&version=latest).
 
     ```bash
     az deployment group create --resource-group logstash-example \
